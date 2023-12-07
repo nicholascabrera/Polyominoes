@@ -7,9 +7,9 @@
  * code that isn't completely mine, the others are all me. As for the
  * class "Checkerboard," I will be using its code as a crutch for my project.
  * I do not intend to take any credit for this code, nor is it required
- * that I create my own code, as seen in the prompt: "Given a portion
- * of a checkerboard, look for tilings of this checkerboard with
- * various types of polyominoes, including dominoes, the two types of
+ * that I create my own code, as seen in the prompt from Chapter 1: 
+ * "Given a portion of a checkerboard, look for tilings of this checkerboard
+ * with various types of polyominoes, including dominoes, the two types of
  * triominoes, and larger polyominoes." It very clearly states:
  *              "Given a portion of a checkerboard"
  * As no checkerboard was given, I must create my own, and as this is
