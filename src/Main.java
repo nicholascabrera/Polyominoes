@@ -17,7 +17,7 @@ public class Main {
         polyominoPanel.setLocation(200, 0);
         polyominoPanel.setSize(new Dimension(400, 400));
 
-        polyomino.setPolyominoBoard(polyominoPanel);
+        polyomino.setPolyominoBoard(polyominoPanel, checkerboard.getBoardObject().getOrder());
 
         window.setPreferredSize(new Dimension(600, 400));
         window.setLayout(null); // I will do the layout myself.

@@ -100,6 +100,10 @@ public class Checkerboard extends JPanel {
 
     } // end constructor
 
+    public Board getBoardObject(){
+        return board;
+    }
+
     public int[][] getBoard(){
         return board.board.getBoard();
     }
@@ -143,7 +147,7 @@ public class Checkerboard extends JPanel {
      * the work of letting the users play checkers, and it displays
      * the checkerboard.
      */
-    private class Board extends JPanel implements ActionListener, MouseListener {
+    class Board extends JPanel implements ActionListener, MouseListener {
 
         CheckersData board; // The data for the checkers board is kept here.
                             // This board is also responsible for generating
@@ -196,6 +200,10 @@ public class Checkerboard extends JPanel {
                 ++order;
             else if (src == downButton)
                 --order;
+        }
+
+        public int getOrder() {
+            return order;
         }
 
         /**
@@ -304,7 +312,7 @@ public class Checkerboard extends JPanel {
 
             board.makeMove(move);
             polyominoBoard.showBoard(board.getBoard(), order);
-            polyominoBoard.updatePolyominoBoard(board.getBoard());
+            polyominoBoard.updatePolyominoBoard(board.getBoard(), order);
 
             /*
              * If the move was a jump, it's possible that the player has another

@@ -18,24 +18,24 @@ public class PolyominoBoard {
             this.ready = false;
         }
 
-        public void setPolyominoBoard(Checkerboard polyominoBoard){
+        public void setPolyominoBoard(Checkerboard polyominoBoard, int order){
             this.polyominoBoard = polyominoBoard;
             this.board = this.polyominoBoard.getBoard();
             this.ready = false;
-            this.getMaxOrderPolyomino();
+            this.getMaxOrderPolyomino(order);
         }
 
-        public void updatePolyominoBoard(int board[][]){
+        public void updatePolyominoBoard(int board[][], int order){
             this.polyominoBoard.setBoard(board);
             this.polyominoBoard.repaint();
             this.board = this.polyominoBoard.getBoard();
             this.ready = false;
-            this.getMaxOrderPolyomino();
+            this.getMaxOrderPolyomino(order);
         }
 
-        public void getMaxOrderPolyomino(){
+        public void getMaxOrderPolyomino(int order){
             polyominoOrderMap = new int[8][8];
-            polyomino = new Polyomino(polyominoOrderMap);
+            polyomino = new Polyomino(polyominoOrderMap, order);
             for(int row = 0; row < this.board.length; row++){
                 for (int col = 0; col < this.board[row].length; col++) {
                     if (this.board[row][col] != EMPTY) {

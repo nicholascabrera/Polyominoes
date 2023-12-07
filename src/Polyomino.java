@@ -4,8 +4,9 @@ import java.util.ArrayList;
 public class Polyomino {
     private ArrayList<ArrayList<Point>> elements;
     private int[][] magnitudeMap;
+    //private int maxOrder;
 
-    public Polyomino(int[][] magnitudeMap){
+    public Polyomino(int[][] magnitudeMap, int maxOrder){
         this.elements = new ArrayList<ArrayList<Point>>();
         this.magnitudeMap = magnitudeMap;
     }
