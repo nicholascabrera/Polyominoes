@@ -1,7 +1,12 @@
 /**
- * THIS IS NOT MY CODE - it is from San Diego State University.
- * I will be using this code as a crutch for my project. I do
- * not intend to take any credit for this code, nor is it required
+ * THIS IS NOT MY CODE - at least, most of it isnt.
+ * 
+ * The code for the game "checkers" is from San Diego State University.
+ * Any code that pertains to the "mirroring" effect and painting the
+ * polyominoes is my code. This class file is the only one that contains
+ * code that isn't completely mine, the others are all me. As for the
+ * class "Checkerboard," I will be using its code as a crutch for my project.
+ * I do not intend to take any credit for this code, nor is it required
  * that I create my own code, as seen in the prompt: "Given a portion
  * of a checkerboard, look for tilings of this checkerboard with
  * various types of polyominoes, including dominoes, the two types of
@@ -12,14 +17,17 @@
  * a checkerboard game is within the scope of the project. As such, I
  * believe it is not only acceptable to use this code, but a necessity.
  * 
- * Now that I can get off my soap box, I must admit that I changed a
+ * Now that I can get off my soap box, I must admit that I changed a good
  * bit of this code, like the colors, for instance. They were very ugly
- * before, so I fixed them. They are also in this strange nested class
- * structure that I don't particularly enjoy, but its just a style choice
- * the original developer decided on that I'll have to live with, as I
- * lack the motivation to refactor it all. I have what I came for, a
- * dynamic checker board game that I can analyze and derive polyominoes
- * from. 
+ * before, so I fixed them. I also added a second board that mirrored the 
+ * first but was unplayable, and only showed the polyominoes upon it.
+ * They are also in this strange nested class structure that I don't
+ * particularly enjoy, but its just a style choice the original developer
+ * decided on that I'll have to live with, as I lack the motivation to
+ * refactor it all. I have what I came for, a dynamic checker board 
+ * game that I can analyze and derive polyominoes from.
+ * 
+ * Hope you enjoy.
  */
 
 import java.awt.*;
@@ -71,7 +79,7 @@ public class Checkerboard extends JPanel {
         this.polyominoBoard = polyominoObject;
 
         /* Create the components and add them to the panel. */
-        board = new Board(this.polyominoBoard, this); // Note: The constructor for the
+        board = new Board(this.polyominoBoard); // Note: The constructor for the
                                    // board also creates the buttons
                                    // and label.
         add(board);
@@ -175,7 +183,7 @@ public class Checkerboard extends JPanel {
          * clicks and for clicks on the buttons. Create the board and
          * start the first game.
          */
-        Board(PolyominoBoard polyominoBoard, Checkerboard thisCheckerboard) {
+        Board(PolyominoBoard polyominoBoard) {
             setBackground(Color.BLACK);
             addMouseListener(this);
             downButton = new JButton("Resign");
@@ -186,8 +194,7 @@ public class Checkerboard extends JPanel {
             message.setFont(new Font("Serif", Font.BOLD, 10));
             message.setForeground(Color.BLACK);
             board = new CheckersData();
-            if (boardWidth == 164) { 
-                polyominoBoard.showBoard(board.getBoard(), order);
+            if (boardWidth == 164) {
                 doNewGame(); 
             }
         }
@@ -316,7 +323,6 @@ public class Checkerboard extends JPanel {
         void doMakeMove(CheckersMove move) {
 
             board.makeMove(move);
-            polyominoBoard.showBoard(board.getBoard(), order);
             polyominoBoard.updatePolyominoBoard(board.getBoard(), order);
 
             /*
