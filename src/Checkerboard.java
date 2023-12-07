@@ -77,7 +77,8 @@ public class Checkerboard extends JPanel {
         add(board);
         if(bool){
             add(upButton);
-            add(downButton); 
+            add(downButton);
+            add(message);
         } else {
             boardWidth = 164*2;
             boardHeight = boardWidth;
@@ -95,7 +96,7 @@ public class Checkerboard extends JPanel {
             upButton.setFont(text);
             downButton.setBounds(20, 225, boardWidth, 30);
             downButton.setFont(text);
-            message.setSize(350, 30);
+            message.setBounds(20, 260, boardWidth, 30);
         }
 
     } // end constructor
@@ -177,12 +178,12 @@ public class Checkerboard extends JPanel {
         Board(PolyominoBoard polyominoBoard, Checkerboard thisCheckerboard) {
             setBackground(Color.BLACK);
             addMouseListener(this);
-            downButton = new JButton("Decrease Order");
+            downButton = new JButton("Resign");
             downButton.addActionListener(this);
-            upButton = new JButton("Increase Order");
+            upButton = new JButton("New Game");
             upButton.addActionListener(this);
             message = new JLabel("", JLabel.CENTER);
-            message.setFont(new Font("Serif", Font.BOLD, 14));
+            message.setFont(new Font("Serif", Font.BOLD, 10));
             message.setForeground(Color.BLACK);
             board = new CheckersData();
             if (boardWidth == 164) { 
@@ -197,9 +198,9 @@ public class Checkerboard extends JPanel {
         public void actionPerformed(ActionEvent evt) {
             Object src = evt.getSource();
             if (src == upButton)
-                ++order;
+                doNewGame();
             else if (src == downButton)
-                --order;
+                doResign();
         }
 
         public int getOrder() {
@@ -211,27 +212,31 @@ public class Checkerboard extends JPanel {
          */
         void doNewGame() {
             if (gameInProgress == true) {
-                // This should not be possible, but it doesn't hurt to check.
-                message.setText("Finish the current game first!");
+                    // This should not be possible, but it doesn't hurt to check.
+                message.setText("<html>Finish the current game first!</html>");
                 return;
             }
-            board.setUpGame(); // Set up the pieces.
-            currentPlayer = CheckersData.RED; // RED moves first.
-            legalMoves = board.getLegalMoves(CheckersData.RED); // Get RED's legal moves.
-            selectedRow = -1; // RED has not yet selected a piece to move.
-            message.setText("Red:  Make your move.");
+            board.setUpGame();   // Set up the pieces.
+            currentPlayer = CheckersData.RED;   // RED moves first.
+            legalMoves = board.getLegalMoves(CheckersData.RED);  // Get RED's legal moves.
+            selectedRow = -1;   // RED has not yet selected a piece to move.
+            message.setText("<html>Red:  Make your move.</html>");
             gameInProgress = true;
+            upButton.setEnabled(false);
+            downButton.setEnabled(true);
             repaint();
         }
 
         /**
-         * The game ends. The parameter, str, is displayed as a message
-         * to the user. The states of the buttons are adjusted so players
-         * can start a new game. This method is called when the game
+         * The game ends.  The parameter, str, is displayed as a message
+         * to the user.  The states of the buttons are adjusted so players
+         * can start a new game.  This method is called when the game
          * ends at any point in this class.
          */
         void gameOver(String str) {
             message.setText(str);
+            upButton.setEnabled(true);
+            downButton.setEnabled(false);
             gameInProgress = false;
         }
 
@@ -254,9 +259,9 @@ public class Checkerboard extends JPanel {
                     selectedRow = row;
                     selectedCol = col;
                     if (currentPlayer == CheckersData.RED)
-                        message.setText("RED:  Make your move.");
+                        message.setText("<html>RED:  Make your move.</html>");
                     else
-                        message.setText("BLACK:  Make your move.");
+                        message.setText("<html>BLACK:  Make your move.</html>");
                     repaint();
                     return;
                 }
@@ -268,7 +273,7 @@ public class Checkerboard extends JPanel {
              */
 
             if (selectedRow < 0) {
-                message.setText("Click the piece you want to move.");
+                message.setText("<html>Click the piece you want to move.</html>");
                 return;
             }
 
@@ -290,7 +295,7 @@ public class Checkerboard extends JPanel {
              * the user just clicked is not one where that piece can be legally moved.
              * Show an error message.
              */
-            message.setText("Not a legal move.");
+            message.setText("<html>Not a legal move.</html>");
 
 
             /**         NICO NOTE
@@ -325,9 +330,9 @@ public class Checkerboard extends JPanel {
                 legalMoves = board.getLegalJumpsFrom(currentPlayer, move.toRow, move.toCol);
                 if (legalMoves != null) {
                     if (currentPlayer == CheckersData.RED)
-                        message.setText("RED:  You must continue jumping.");
+                        message.setText("<html>RED:  You must continue jumping.</html>");
                     else
-                        message.setText("BLACK:  You must continue jumping.");
+                        message.setText("<html>BLACK:  You must continue jumping.</html>");
                     selectedRow = move.toRow; // Since only one piece can be moved, select it.
                     selectedCol = move.toCol;
                     repaint();
@@ -345,20 +350,20 @@ public class Checkerboard extends JPanel {
                 currentPlayer = CheckersData.BLACK;
                 legalMoves = board.getLegalMoves(currentPlayer);
                 if (legalMoves == null)
-                    gameOver("BLACK has no moves.  RED wins.");
+                    gameOver("<html>BLACK has no moves.  RED wins.</html>");
                 else if (legalMoves[0].isJump())
-                    message.setText("BLACK:  Make your move.  You must jump.");
+                    message.setText("<html>BLACK:  Make your move.  You must jump.</html>");
                 else
-                    message.setText("BLACK:  Make your move.");
+                    message.setText("<html>BLACK:  Make your move.</html>");
             } else {
                 currentPlayer = CheckersData.RED;
                 legalMoves = board.getLegalMoves(currentPlayer);
                 if (legalMoves == null)
-                    gameOver("RED has no moves.  BLACK wins.");
+                    gameOver("<html>RED has no moves.  BLACK wins.</html>");
                 else if (legalMoves[0].isJump())
-                    message.setText("RED:  Make your move.  You must jump.");
+                    message.setText("<html>RED:  Make your move.  You must jump.</html>");
                 else
-                    message.setText("RED:  Make your move.");
+                    message.setText("<html>RED:  Make your move.</html>");
             }
 
             /*
@@ -390,6 +395,20 @@ public class Checkerboard extends JPanel {
             /* Make sure the board is redrawn in its new state. */
             repaint();
         } // end doMakeMove();
+
+        /**
+         * Current player resigns.  Game ends.  Opponent wins.
+         */
+        void doResign() {
+            if (gameInProgress == false) {  // Should be impossible.
+                message.setText("<html>There is no game in progress!</html>");
+                return;
+            }
+            if (currentPlayer == CheckersData.RED)
+                gameOver("<html>RED resigns.  BLACK wins.</html>");
+            else
+                gameOver("<html>BLACK resigns.  RED wins.</html>");
+        }
 
         /**
          * Draw a checkerboard pattern in gray and lightGray. Draw the
@@ -592,7 +611,7 @@ public class Checkerboard extends JPanel {
          */
         public void mousePressed(MouseEvent evt) {
             if (gameInProgress == false)
-                message.setText("Click \"New Game\" to start a new game.");
+                message.setText("<html>Click \"New Game\" to start a new game.</html>");
             else {
                 int col = (evt.getX() - 2) / 20;
                 int row = (evt.getY() - 2) / 20;
